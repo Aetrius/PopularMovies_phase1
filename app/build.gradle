@@ -20,7 +20,7 @@ android {
 
     buildTypes.each {
         buildTypes.each {
-            it.buildConfigField 'String', 'API_KEY', '"604e5c2da5dbedfd39e7c6860c2e78a2"'
+            it.buildConfigField 'String', 'API_KEY', '"API_KEY"'
         }
 
     }
