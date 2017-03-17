@@ -3,7 +3,6 @@ package com.tylerbennet.software.popularmovies_phase1;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +11,10 @@ import java.net.URL;
  * Created by Tyler Bennet on 3/4/2017.
  */
 
+/**
+ * Movie class handles our movie objects being manipulated and
+ * setting/getting data.
+ */
 public class Movie implements Parcelable {
     private String title;
     private String imagePath;
@@ -71,14 +74,8 @@ public class Movie implements Parcelable {
             Uri.Builder movieUri = new Uri.Builder()
                     .scheme("http")
                     .authority("image.tmdb.org")
-                    //.path("/t/p/w185/")
                     .path("/t/p/w780/" + this.imagePath);
-            //fullImagePath = movieUri.toString();
             imageUrl = new URL(movieUri.toString());
-            //possibly should look into a custom 185 based on device size!??!
-            //http://image.tmdb.org/t/p/w185 + /path
-            //outputs a verbose log of the result string
-            Log.v(LOG_TAG, imageUrl.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

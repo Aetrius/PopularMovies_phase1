@@ -6,9 +6,18 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
-
+/**
+ * Settings activity handles the application settings for movie preferences.
+ *
+ */
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
 
+    /**
+     * onCreate method
+     * This method sets our preferences to allow the settings to show on screen.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +45,14 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                         .getString(preference.getKey(), ""));
     }
 
+
+    /**
+     * Returns a boolean value based on which preference is selected.
+     *
+     * @param preference
+     * @param value
+     * @return
+     */
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
         String stringValue = value.toString();

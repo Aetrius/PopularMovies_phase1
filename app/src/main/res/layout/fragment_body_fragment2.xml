@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tylerbennet.software.popularmovies_phase1.BodyFragment2">
+
+    <TextView
+        android:id="@+id/movieDetailSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/defaultSummary"
+        android:paddingBottom="10dp"
+        />
+
+</FrameLayout>

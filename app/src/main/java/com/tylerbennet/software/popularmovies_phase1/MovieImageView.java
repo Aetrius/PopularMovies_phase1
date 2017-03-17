@@ -16,6 +16,10 @@ import static android.content.Context.WINDOW_SERVICE;
  * Created by Tyler Bennet on 3/7/2017.
  */
 
+/**
+ * Custom ImageView that helps dynamically adjust the default
+ * imageview size to appropriately match the screen size
+ */
 public class MovieImageView extends ImageView {
     private static final String LOG_TAG = MovieImageView.class.getSimpleName();
 
@@ -31,6 +35,12 @@ public class MovieImageView extends ImageView {
         super(context, attrs, defStyle);
     }
 
+    /**
+     * Method determines the screen size and adjusts the imageview size.
+     *
+     * @param widthMeasureSpec
+     * @param heightMeasureSpec
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

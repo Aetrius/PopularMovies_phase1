@@ -11,17 +11,26 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <fragment android:name="com.tylerbennet.software.popularmovies_phase1.TitleFragment"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:id="@+id/titleFragment"/>
-
-            <fragment android:name="com.tylerbennet.software.popularmovies_phase1.BodyFragment1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:id="@+id/bodyFragment1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+                <fragment android:name="com.tylerbennet.software.popularmovies_phase1.BodyFragment1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bodyFragment1"
+                    />
+                <fragment android:name="com.tylerbennet.software.popularmovies_phase1.BodyFragment2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bodyFragment2"
+                    />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,12 +39,6 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:orientation="vertical">
-
-                <fragment android:name="com.tylerbennet.software.popularmovies_phase1.BodyFragment2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/bodyFragment2"
-                    />
 
                 <View android:background="@color/black"
                     android:layout_width = "match_parent"
@@ -47,7 +50,8 @@
                 <ListView
                     android:paddingTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
                 </ListView>
             </LinearLayout>
         </LinearLayout>

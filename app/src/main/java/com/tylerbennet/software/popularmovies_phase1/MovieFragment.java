@@ -29,7 +29,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
+/**
+ * Main Fragment that handles the core application features. This handles the
+ * tasks for connecting up and downloading data from our vendor database.
+ * In addition this allows for the translation of data to parse it into
+ * a readable format for our adapters.
+ */
 public class MovieFragment extends Fragment {
 
     private static String LOG_TAG =  MovieFragment.class.getSimpleName();
@@ -37,17 +42,30 @@ public class MovieFragment extends Fragment {
     private MovieCollection collectionOfMovies;
     private MovieAdapter mAdapter;
 
+    /**
+     * Default constructor handles the initialization of our
+     * collection of movie data.
+     */
     public MovieFragment() {
         // Required empty public constructor
         collectionOfMovies = new MovieCollection();
     }
 
+    /**
+     * Default onCreate method.
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
+    /**
+     * OnStart method handles our application when the state changes
+     * or the activity starts to pull the movie data.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -57,6 +75,11 @@ public class MovieFragment extends Fragment {
 
     }
 
+    /**
+     * isOnline checks for our network connectivity and reports back the results.
+     *
+     * @return boolean
+     */
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -64,6 +87,11 @@ public class MovieFragment extends Fragment {
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
+    /**
+     * Updates the movies shared preferences for access by the rest of the application.
+     * Handles the execution of our async task to fetch JSON data from the
+     * vendor website.
+     */
     public void updateMovies() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String searchType = prefs.getString(
@@ -73,6 +101,15 @@ public class MovieFragment extends Fragment {
         test.execute(searchType);
     }
 
+    /**
+     * OnCreateView handles the movie adapter along with initializing the
+     * gridview.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return View
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,8 +118,6 @@ public class MovieFragment extends Fragment {
 
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
 
-
-        //gridView.setAdapter(new MovieAdapter(rootView.getContext()));
         gridView.setAdapter(mAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -97,20 +132,29 @@ public class MovieFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * FetchMoviesTask is an async task that parses JSON data from the vendor
+     * website using our API key and URI built from code. Task will handle collecting
+     * the data and send this back to the MovieFragment class.
+     */
     public class FetchMoviesTask extends AsyncTask<String, Void, MovieCollection> {
 
+        /**
+         * Default method not utilized.
+         */
         @Override
         protected void onPreExecute() {
-            //super.onPreExecute();
         }
 
+        /**
+         * Background method for collecting movie data in the JSON format.
+         *
+         * @param params
+         * @return
+         */
         @Override
         protected MovieCollection doInBackground(String... params) {
 
-            //Build URL to parse
-            // /movie/popular
-            // /movie/top_rated
-            // http://api.themoviedb.org/3/movie/popular?api_key=604e5c2da5dbedfd39e7c6860c2e78a2
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
             String movieJsonString = null;
@@ -168,14 +212,6 @@ public class MovieFragment extends Fragment {
                 }
             }
 
-            //getMovieDataFromJson(movieUri);
-            //Parse output into readable string for array list to search values
-            //original title : "original_title"
-            //movie poster image path "backdrop_path"
-            //plot synopsis (overview) : "overview"
-            //user rating (vote average)
-            //release date
-
             try {
                 return getMovieDataFromJson(movieJsonString);
             } catch (JSONException e) {
@@ -186,11 +222,19 @@ public class MovieFragment extends Fragment {
             return null;
         }
 
+        /**
+         * Default method not utilized.
+         * @param params
+         */
         @Override
         protected void onProgressUpdate(Void... params) {
 
         }
 
+        /**
+         * Method updates the movie adapter when async process is completed along
+         * with updating the adapter that our data has changed.
+         */
         @Override
         protected void onPostExecute(MovieCollection result) {
             if (result != null) {
@@ -199,6 +243,13 @@ public class MovieFragment extends Fragment {
             }
         }
 
+        /**
+         * Method parses our JSON data into a Movie object for later use.
+         *
+         * @param movieJsonStr
+         * @return
+         * @throws JSONException
+         */
         private MovieCollection getMovieDataFromJson(String movieJsonStr) throws JSONException {
             final String RESULTS = "results";
             final String JSON_TITLE = "original_title";
@@ -206,11 +257,11 @@ public class MovieFragment extends Fragment {
             final String JSON_PLOT = "overview";
             final String JSON_USER_RATING = "vote_average";
             final String JSON_RELEASE_DATE = "release_date";
-            //final String JSON_TOTAL_RUNTIME = "total_runtime";
 
             JSONObject movieJson = new JSONObject(movieJsonStr);
             JSONArray movieArray = movieJson.getJSONArray(RESULTS);
 
+            //Creates a movie collection for easy object access.
             MovieCollection movieList = new MovieCollection();
 
             for (int i = 0; i < movieArray.length(); i++) {
@@ -228,9 +279,8 @@ public class MovieFragment extends Fragment {
                 plot = movieObject.getString(JSON_PLOT);
                 userRating = movieObject.getString(JSON_USER_RATING);
                 releaseDate = movieObject.getString(JSON_RELEASE_DATE);
-                //runtime = movieObject.getString(JSON_TOTAL_RUNTIME);
 
-                //Log.v(LOG_TAG, title + " " + movieImagePath + " " + plot + " " + userRating + " " + releaseDate);
+                //Add our movie to the collection.
                 movieList.addMovie(new Movie(title, movieImagePath, plot, userRating, releaseDate));
 
             }

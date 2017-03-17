@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+/**
+ * Program Entry point and main program view.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
